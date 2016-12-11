@@ -100,6 +100,8 @@ public class Brett implements Serializable {
                     getRute(row,col).setOkkupant(new Brikke(Color.BLACK, row, col));
     }
 
+    //TODO Hvis første trekk er tatt, hent brikkeposisjonene fra en loggfil som sendes mellom klientene
+
 
     /** Finner alle mulig Ruter en Brikke kan flyttes til
      *
