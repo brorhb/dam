@@ -8,27 +8,23 @@ import java.util.Vector;
 import java.awt.*;
 
 
-/** Stores the game board as a 2D array of Squares. Also provides functionality to move the
- *  spill.Piece of one spill.Square to another spill.Square, and the ability to get all possible moves of a
- *  particular spill.Piece anywhere on the board
- *
- * Note: The spill.Board is the underlying structure that is drawn to the GUI in CheckersGame.java
- *
- * @author Matthew Proetsch
- * @version 0.9b
+/**
+ * Denne klassen lagrer spillbrettet som et 2D array av ruter. Denne klassen sørger også for funksjonaliteten
+ * til en Brikke i en Rute, og muligheten til å se alle mulige trekk for en valgt brikke
  */
 
 public class Board implements Serializable {
 
-    /** Number of rows */
+    /** Antall rader */
     public static final int rows = 8;
-    /** Number of columns */
+    /** Antall kolonner */
     public static final int cols = 8;
-    /** An array of Squares that represents the game board */
+    /** Et array av Ruter som lager brettet*/
     private Square[][] gameBoard;
 
 
-    /** Constructor takes no args and produces a spill.Board of size rows x cols with alternating background colors */
+    /** Konsturktøren tar ingen argumenter, og produserer ett brett med gitt antall kolonner og rader,
+     *  med varierende bakgrunnsfarge */
     public Board() {
 
 
@@ -60,11 +56,11 @@ public class Board implements Serializable {
 
 
 
-    /** Check to see if a position in this spill.Board is in bounds
-     *
-     * @param row			The row to be checked
-     * @param col			The column to be checked
-     * @return				True if in bounds, false if not
+    /**
+     * Sjekk om en posisjon er innen for rammene til brettet
+     * @param row			Raden som sjekkes
+     * @param col			Kolonnen som sjekkes
+     * @return				True hvis posisjonen er lovlig, false hvis ikke
      */
     public static boolean inBounds(int row, int col) {
         if(row >= 0 && row < rows &&
@@ -78,12 +74,12 @@ public class Board implements Serializable {
     }
 
 
-    /** Get a particular spill.Square contained in this spill.Board
+    /** Henter en Rute som er inne i Spillbrettet
      *
-     * @param row		The row at which the square should be
-     * @param col		The column at which the square should be
+     * @param row		Raden ruten skal være i
+     * @param col		Kolonnen ruten skal være i
      *
-     * @return			The square at (row, col), or null if (row, col) is out-of-bounds
+     * @return			ruten ved (row, col), eller null hvis (row, col) er utenfor rammene
      */
     public Square getSquare(int row, int col) {
         if(inBounds(row, col))
@@ -93,17 +89,16 @@ public class Board implements Serializable {
         return null;
     }
 
-    /** Fill this spill.Board with Red pieces on top, and Black pieces on bottom */
+    /** Fyller brettet med brikker. Røde på toppen, og Svarte nederst */
     public void placeStartingPieces() {
 
-        //Have the Red side on top, Black side on bottom
-        //Establish the Red side first
+        //Plasserer røde øverst
         for(int row = 0; row < 3; row++)
             for(int col = 0; col < 8; col++)
                 if(getSquare(row, col).getBackgroundColor() == Square.BackgroundColor.DARK)
                     getSquare(row,col).setOccupant(new Piece(Color.RED, row, col));
 
-        //Now establish the Black side
+        //Plasserer svarte nederst
         for(int row = 5; row < 8; row++)
             for(int col = 0; col < 8; col++)
                 if(getSquare(row, col).getBackgroundColor() == Square.BackgroundColor.DARK)
@@ -111,17 +106,13 @@ public class Board implements Serializable {
     }
 
 
-    /** Find all possible Squares to which this piece can move
+    /** Finner alle mulig Ruter en Brikke kan flyttes til
      *
-     * @param p 				spill.Piece for which moves should be found
+     * @param p 				Brikken som en skal finne mulig trekk for
      *
-     * @return					A Vector of Squares to which this piece can move
+     * @return					En vektor som viser hvor brikken kan flytte
      */
     public Vector<Square> getPossibleMoves(Piece p) {
-		/*Possible moves include up-left, up-right, down-left, down-right
-		 * This corresponds to (row-- col--), (row-- col++),
-		 * 						(row++ col--), (row++ col++) respectively
-		 */
 
         Vector<Square> possibleMoves = new Vector<Square>();
         Color pColor = p.getColor();
@@ -129,8 +120,7 @@ public class Board implements Serializable {
         int row = p.getRow();
         int col = p.getCol();
 
-        //Begin checking which moves are possible, keeping in mind that only black checkers may move up
-        //and only red checkers may move downwards
+        //Sjekker hvilke trekk som er mulig, og passer på at bare svarte kan hoppe oppover, og røde nedover
 
         //Check moves to the top-left of this piece
         if(Board.inBounds(row-1, col-1) && pColor == Color.BLACK) {
