@@ -1,8 +1,6 @@
 package serverKlient;
 
-import spill.Board;
-import spill.SimpleCheckersGUI;
-import spill.Square;
+import spill.DamSpill;
 
 import java.io.*;
 import java.net.Socket;
@@ -41,8 +39,8 @@ public class Klient implements Runnable {
 
                 ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
                 System.out.println("Jeg kjører");
-                SimpleCheckersGUI spillStatus = (SimpleCheckersGUI) objectInputStream.readObject();
-                spillStatus.CreateAndShowGUI();
+                DamSpill spillStatus = (DamSpill) objectInputStream.readObject();
+                spillStatus.LagOgVisGUI();
 
                 dis = new DataInputStream(socket.getInputStream());
                 System.out.println("greaaaaat success?");
